@@ -33,6 +33,8 @@ jobs:
       - name: Set up MySQL
         uses: mirromutth/mysql-action@v1.1
         with:
+          host port: 3800 # Optional, default value is 3306. The port of host
+          container port: 3307 # Optional, default value is 3306. The port of container
           character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
           collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
           mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
@@ -41,10 +43,9 @@ jobs:
           
       - name: Running Contract Verification
         run: |
-          echo X | telnet -e X 127.0.0.1 3306
-          sudo mysql --host=127.0.0.1 --user=root -e 'SHOW GRANTS';
+          echo X | telnet -e X 127.0.0.1 3800
           
       - name: Maybe it'll run it
         run: |
-          mysql --host=127.0.0.1 --user=root -e 'SHOW GRANTS';
+          mysql --host=127.0.0.1 --port=3800 --user=root -e 'SHOW GRANTS';
           
