@@ -1,0 +1,43 @@
+name: Contract Verification WebHook
+
+on:
+  workflow_dispatch:
+    inputs:
+      consumer_branch:
+        description: 'this will be the tag of the contract being uploaded, which should be verified'
+        required: true
+        default: 'staging'
+
+
+
+jobs:
+  contracts-verification:
+    runs-on: ubuntu-latest
+    env:
+      PACT_BROKER_URL: https://usertesting.pactflow.io/
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1.2'
+          
+      - name: Shutdown Ubuntu MySQL (SUDO)
+        run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
+
+      - name: Set up MySQL
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
+          collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
+          mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
+          mysql user: 'developer' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+          mysql password: 'root'
+          
+      - name: Running Contract Verification
+        run: |
+          mysql --user=root -e quit
+          mysql --user=root -e 'SHOW GRANTS';
+          
