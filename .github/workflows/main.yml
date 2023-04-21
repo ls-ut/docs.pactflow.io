@@ -41,6 +41,9 @@ jobs:
           
       - name: Running Contract Verification
         run: |
-          mysql --user=root -e quit
-          mysql --user=root -e 'SHOW GRANTS';
+          mysql --host=localhost --user=root -e quit
+          
+      - name: Maybe it'll run it
+        run: |
+          mysql --host=127.0.0.1 --user=root -e 'SHOW GRANTS';
           
