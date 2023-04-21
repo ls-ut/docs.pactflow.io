@@ -25,7 +25,10 @@ jobs:
           ruby-version: '3.1.2'
           
       - name: Shutdown Ubuntu MySQL (SUDO)
-        run: sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
+        run:  |
+          sudo service mysql stop # Shutdown the Default MySQL, "sudo" is necessary, please not remove it
+          sudo apt remove --auto-remove mysql-server
+          sudo apt purge --auto-remove mysql-server
 
       - name: Set up MySQL
         uses: mirromutth/mysql-action@v1.1
