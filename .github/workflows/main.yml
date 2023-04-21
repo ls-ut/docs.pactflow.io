@@ -1,6 +1,8 @@
 name: Contract Verification WebHook
 
 on:
+  push:
+  
   workflow_dispatch:
     inputs:
       consumer_branch:
@@ -38,5 +40,6 @@ jobs:
           
       - name: Maybe it'll run it
         run: |
-          mysql --host=127.0.0.1 --port=3800 --user=root -e 'SHOW GRANTS';
+          cat /etc/my.cnf
+          mysql --host=localhost --port=3800 --user=root -e 'SHOW GRANTS';
           
