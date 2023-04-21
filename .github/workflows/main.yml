@@ -27,20 +27,9 @@ jobs:
           # sudo apt remove --auto-remove mysql-server
           # sudo apt purge --auto-remove mysql-server
 
-      - name: Set up MySQL
-        uses: mirromutth/mysql-action@v1.1
+      - uses: shogo82148/actions-setup-mysql@v1
         with:
-          host port: 3800 # Optional, default value is 3306. The port of host
-          container port: 3307 # Optional, default value is 3306. The port of container
-          character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
-          collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
-          mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
-          mysql user: 'developer' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-          mysql password: 'root'
-          
-      - name: Maybe it'll run it
-        run: |
-          # sudo find / -name 'my.cnf'
-          cat /etc/mysql/my.cnf
-          mysql --host=localhost --port=3800 --user=root -e 'SHOW GRANTS';
+          mysql-version: '5.7'
+      - run: mysql -uroot -h127.0.0.1 -e 'SELECT version()'
+
           
