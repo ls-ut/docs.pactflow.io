@@ -41,7 +41,8 @@ jobs:
           
       - name: Running Contract Verification
         run: |
-          mysql --host=127.0.0.1 --user=root -e quit;
+          echo X | telnet -e X 127.0.0.1 3306
+          sudo mysql --host=127.0.0.1 --user=root -e 'SHOW GRANTS';
           
       - name: Maybe it'll run it
         run: |
